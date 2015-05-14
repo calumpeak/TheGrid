@@ -1,0 +1,41 @@
+
+* {
+	color:#FFF;
+}
+body {
+	background-color: #333;
+}
+
+#wrapper {
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    padding-top: 70px;
+    text-align: center;
+}
+#score {
+	padding-top: 10px;
+}
+
+#grid {
+	margin: auto;
+	top: 0; left: 0; bottom: 0; right: 0;
+	padding-top: 20px;
+}
+
+#timer {
+
+}
+
+#content {
+	/*width: 800px;
+	height: 800px;*/
+}
+
+td {
+    cursor:pointer;
+    width:30px; height:30px;
+    border:1px solid #FFF;
+    text-align:center;
+    font-family:sans-serif; font-size:13px
+}
