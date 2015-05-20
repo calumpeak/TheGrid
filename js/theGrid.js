@@ -53,11 +53,12 @@ game.timer = function() {
 	//Check if default or reduced
 	game.handleTimer();
 
-	clearInterval(countdown);
-	var countdown = setInterval(function() {
+	clearInterval(game.countdown);
+	game.countdown = setInterval(function() {
+		console.log(game.secs);
 		if(game.secs === 0) {
+			clearInterval(game.countdown);
 			game.over();
-			clearInterval(countdown);
 		} else {
 			game.secs-- ;
 			timer.innerHTML = (game.secs / 100).toFixed(2);
