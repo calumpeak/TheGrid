@@ -1,12 +1,9 @@
 //Work In Progress...
 
 //Load
-// (function init() {
-// 	window.addEventListener('load', function() {
-// 		window.addEventListener('message', handleMessage.bind(game), false);
-// 		signalEvent('load');
-// 	})
-// })();
+(function init() {
+	window.addEventListener('message', handleMessage.bind(game), false);
+})();
 //init game object
 var game = {};
 //get elements 
