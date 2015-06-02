@@ -7,10 +7,10 @@
 //init game object
 var game = {};
 //get elements 
+game.wrapper  = document.querySelector('#wrapper');
 game.gridEl = document.querySelector('#content');
 game.timerEl = document.querySelector('#timer');
 game.scoreEl = document.querySelector('#score');
-game.cells =  game.gridEl.getElementsByTagName('td');
 //Set defualts
 game.rows = 5;
 game.cols = 5;
@@ -21,20 +21,20 @@ game.grid = function() {
 	var grid = document.createElement('table'),
 		tr, td, i, j;
 
-	for (i = 0; i < game.rows; i++) {
+	for (i = 0; i < this.rows; i++) {
 		tr = grid.appendChild(document.createElement('tr'));
 
-		for (j = 0; j < game.cols; j++) {
+		for (j = 0; j < this.cols; j++) {
 			td = tr.appendChild(document.createElement('td'));
 			td.addEventListener('click', function(event){
 				//handle clicks
 				game.clickHandler(event);
-			})
+			});
 		}
 	}
 	grid.id = 'grid';
-	game.gridEl.appendChild(grid);
-	game.button();
+	this.gridEl.appendChild(grid);
+	this.button();
 }
 
 /*
@@ -51,83 +51,115 @@ game.removeEl = function(elem) {
 game.timer = function() {
 	var timer = document.querySelector('#timer');
 	//Check if default or reduced
-	game.handleTimer();
+	//game.handleTimer();
 
-	clearInterval(game.countdown);
-	game.countdown = setInterval(function() {
-		console.log(game.secs);
-		if(game.secs === 0) {
-			clearInterval(game.countdown);
-			game.over();
+	clearInterval(this.countdown);
+	this.countdown = setInterval(function() {
+		if(this.secs === 0) {
+			clearInterval(this.countdown);
+			this.over();
 		} else {
-			game.secs-- ;
-			timer.innerHTML = (game.secs / 100).toFixed(2);
+			this.secs-- ;
+			timer.innerHTML = (this.secs / 100).toFixed(2);
 		}
 		
-	}.bind(game),10);
+	}.bind(this),10);
 		
 }
 game.handleTimer = function() {
 	//reset to default
-	var defaultTime = 500;
-	
-	game.score % 5 == 0 ? defaultTime - 50 : defaultTime;
+	this.defaultTime = 500;
+	console.log('!!!');
+	if (this.score % 5 == 0) {
+		console.log('fired');
+		this.defaultTime - 50;
+	} 
 
 	//Set secs to default time
-	game.secs = defaultTime;
+	this.secs = this.defaultTime;
+	console.log(this.score, this.secs);
+
 }
 
 game.clickHandler = function(event) {
-	if (game.secs !== 0 && event.srcElement.id === 'button') {
+	if (this.secs !== 0 && event.srcElement.id === 'button') {
 		//Increase Score
-		game.score++
-		game.scoreEl.innerHTML = game.score;
+		this.score++
+		this.scoreEl.innerHTML = this.score;
 		//Level Up
-		game.levelUp();
-		game.timer();
+		this.levelUp();
+		this.timer();
 	} else {
-		game.over();
+		this.over();
 	}
 }
 
 game.levelUp = function() {
 	//Grow Grid Size
-	game.rows ++;
-	game.cols ++;
+	this.rows ++;
+	this.cols ++;
 	//recall grid
-	game.removeEl('#grid');
-	game.grid();
-	//Shorten timer every 5 clicks
-	//game.handleTimer();
+	this.removeEl('#grid');
+	this.grid();
+	//Shorten Timer
+	this.handleTimer();
 }
 game.button = function() {
-	var button = game.getRandomCell();
+	var button = this.getRandomCell();
 	button.style.backgroundColor = 'red';
 	button.id = 'button';
 }
 
 game.getRandomCell = function() {
-	var randCell = game.cells[Math.floor(Math.random() * game.cells.length)];
+	var gridCell = this.gridEl.getElementsByTagName('td');
+	var randCell = gridCell[Math.floor(Math.random() * gridCell.length)];
 	return randCell;
 }
 
 game.over = function() {
-	var message = game.secs <= 0 ? 'Out of time! Game Over!' : "That's not a button! Game Over!";
-	alert(message + ' You scored ' + this.score + ' points!'); //fix plural
+	var typeOfEnd = this.secs <= 0 ? 'Out of time! Game Over!' : "That's not a button! Game Over!";
+	var messageText = typeOfEnd + ' You scored ' + this.score + (this.score == 1 ? ' point!' : ' points!'); 
 	//reset
-	game.reset();
+	//game.reset();
+
+	//Elements
+	var frame = document.createElement('div'),
+		button = document.createElement('div'),
+		message = document.createElement('p');
+	//Id's
+	frame.id = 'endSplash';
+	button.id = 'retryButton';
+	message.id = 'messageText';
+	//Content
+	button.innerHTML = 'Try Again!';
+	message.innerHTML = messageText;
+	//Append
+	frame.appendChild(message);
+	frame.appendChild(button);
+
+	this.wrapper.appendChild(frame);
+
+	//Button Click Handler
+	button.addEventListener('click', function() {
+		game.reset();
+	});
+	//Facebook API?
+	//Save Scores
+
 }
 
 game.reset = function() {
 	//return to default values
-	game.rows = 5;
-	game.cols = 5;
-	game.secs = 500;
-	game.score = 0;
-	game.scoreEl.innerHTML = game.score;
+	this.rows = 5;
+	this.cols = 5;
+	this.secs = 500;
+	this.defaultTime = 500;
+	this.score = 0;
+	this.scoreEl.innerHTML = this.score;
+	this.removeEl('#endSplash');
 	//recall grid
-	game.removeEl('#grid');
-	game.grid();
+	this.removeEl('#grid');
+	this.grid();
 
 }
 
