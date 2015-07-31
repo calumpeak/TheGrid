@@ -27,11 +27,7 @@ game.grid = function() {
 
 		for (j = 0; j < this.cols; j++) {
 			td = tr.appendChild(document.createElement('td'));
-			td.addEventListener('click', function(event){
-				//handle clicks
-				//TODO Prevent clicks when endsplash is open
-				game.clickHandler(event);
-			});
+			td.addEventListener('click', game.clickLogger);
 		}
 	}
 	grid.id = 'grid';
@@ -51,6 +47,15 @@ game.removeEl = function(elem) {
 	}
 
 	el.parentNode.removeChild(el);
+}
+
+game.removeListeners = function (elem, event, func) {
+	var elements = document.getElementsByTagName(elem);
+	console.log(elements);
+	console.log(event);
+	for (var i = 0; i < elements.length; i++) {
+		elements[i].removeEventListener(event, func);
+	}
 }
 
 /*
@@ -83,6 +88,10 @@ game.handleTimer = function() {
 
 	//Set secs to default time
 	this.secs = this.defaultTime;
+}
+
+game.clickLogger = function (event) {
+	game.clickHandler(event);
 }
 
 game.clickHandler = function(event) {
@@ -186,8 +195,8 @@ game.reset = function() {
 
 game.storeScore = function(score) {
 	var promptScreen = document.createElement('div');
-	var inputArea    = document.createElement('input');
-	var submit       = document.createElement('button');
+	var inputArea	 = document.createElement('input');
+	var submit	     = document.createElement('button');
 	var name;
 	promptScreen.id  = 'prompt';
 	inputArea.id	 = 'input';
@@ -271,6 +280,7 @@ function handleMessage(e) {
 			game.grid();
 			break;
 		case 'storeScore':
+			game.removeListeners('td', 'click', game.clickLogger);
 			game.storeScore(game.score);
 			break;
 		case 'gameOver':
