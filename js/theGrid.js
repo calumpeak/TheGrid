@@ -1,4 +1,8 @@
-//Work In Progress...
+//TODO All of the things
+//TODO fix width/height so it constrains dimensions
+//TODO Fix timer issues
+//TODO DON'T FUCKING USE SET INTERVAL. Get recursive all up in here
+//TODO Get rid of the GOD AWFUL colour scheme
 
 //Load
 (function init() {
@@ -257,6 +261,7 @@ game.storeScore = function(score) {
 	})
 }
 
+//TODO Custom Fade levels
 /*
 *Fade DOM elements in and out
 *Executes callback on complete
@@ -322,6 +327,8 @@ function handleMessage(e) {
 			break;
 		case 'gameOver':
 			game.over();
+			break;
+		case 'backSplash':
 			break;
 		default:
 			break;
