@@ -49,10 +49,12 @@ game.removeEl = function(elem) {
 	el.parentNode.removeChild(el);
 }
 
+/*
+* Remove event listeners
+*/
 game.removeListeners = function (elem, event, func) {
 	var elements = document.getElementsByTagName(elem);
-	console.log(elements);
-	console.log(event);
+	//Loop through elements remove listeners
 	for (var i = 0; i < elements.length; i++) {
 		elements[i].removeEventListener(event, func);
 	}
@@ -90,10 +92,19 @@ game.handleTimer = function() {
 	this.secs = this.defaultTime;
 }
 
+/*
+* Click Logger
+* named function so that it can be removed from listeners
+*/
 game.clickLogger = function (event) {
 	game.clickHandler(event);
 }
 
+/*
+* click Handler
+* Decides what to do with click event
+* TODO Refactor to message system
+*/
 game.clickHandler = function(event) {
 	if (this.secs !== 0 && event.srcElement.id === 'button') {
 		//Increase Score
@@ -109,6 +120,10 @@ game.clickHandler = function(event) {
 	}
 }
 
+/*
+* level up
+* self explanitory
+*/
 game.levelUp = function() {
 	//Grow Grid Size
 	this.rows ++;
@@ -120,11 +135,19 @@ game.levelUp = function() {
 	this.handleTimer();
 }
 
+/*
+* button
+* creates button instance
+*/
 game.button = function() {
 	var button = this.getRandomCell();
 	button.id = 'button';
 }
 
+/*
+* getRandomCell
+* returns a random cell element on the grid
+*/
 game.getRandomCell = function() {
 	var gridCell = this.gridEl.getElementsByTagName('td');
 	var randCell = gridCell[Math.floor(Math.random() * gridCell.length)];
@@ -132,6 +155,10 @@ game.getRandomCell = function() {
 }
 
 //TODO: Refactor
+/*
+* game over
+* builds game over splash screen
+*/
 game.over = function() {
 	var typeOfEnd = this.secs <= 0
 		? 'Out of time. Game Over!'
@@ -179,6 +206,10 @@ game.over = function() {
 	});
 }
 
+/*
+* game reset
+* Resets game back to defaults
+*/
 game.reset = function() {
 	//return to default values
 	game.rows = 5;
@@ -193,6 +224,10 @@ game.reset = function() {
 	game.grid();
 }
 
+/*
+* storeScore
+* creates splash screen to get user input to build the store score object
+*/
 game.storeScore = function(score) {
 	var promptScreen = document.createElement('div');
 	var inputArea	 = document.createElement('input');
@@ -222,8 +257,10 @@ game.storeScore = function(score) {
 	})
 }
 
-//Fade DOM elements in and out
-//Executes callback on complete
+/*
+*Fade DOM elements in and out
+*Executes callback on complete
+*/
 game.fade = function (element, startOpacity, cb) {
 	var count = startOpacity;
 	var faderIn;
