@@ -6,16 +6,17 @@
 })();
 //init game object
 var game = {};
-//get elements 
+//get elements
 game.wrapper  = document.querySelector('#wrapper');
-game.gridEl = document.querySelector('#content');
-game.timerEl = document.querySelector('#timer');
-game.scoreEl = document.querySelector('#score');
+game.gridEl   = document.querySelector('#content');
+game.timerEl  = document.querySelector('#timer');
+game.scoreEl  = document.querySelector('#score');
 //Set defualts
-game.rows = 5;
-game.cols = 5;
-game.secs = 500;
+game.rows  = 5;
+game.cols  = 5;
+game.secs  = 500;
 game.score = 0;
+game.scoreArr = [];
 
 game.grid = function() {
 	var grid = document.createElement('table'),
@@ -28,6 +29,7 @@ game.grid = function() {
 			td = tr.appendChild(document.createElement('td'));
 			td.addEventListener('click', function(event){
 				//handle clicks
+				//TODO Prevent clicks when endsplash is open
 				game.clickHandler(event);
 			});
 		}
@@ -50,8 +52,6 @@ game.removeEl = function(elem) {
 */
 game.timer = function() {
 	var timer = document.querySelector('#timer');
-	//Check if default or reduced
-	//game.handleTimer();
 
 	clearInterval(this.countdown);
 	this.countdown = setInterval(function() {
@@ -62,23 +62,21 @@ game.timer = function() {
 			this.secs-- ;
 			timer.innerHTML = (this.secs / 100).toFixed(2);
 		}
-		
+
 	}.bind(this),10);
-		
 }
+
+//TODO: Fix where time is overiding back to 5secs
 game.handleTimer = function() {
 	//reset to default
 	this.defaultTime = 500;
-	console.log('!!!');
+
 	if (this.score % 5 == 0) {
-		console.log('fired');
-		this.defaultTime - 50;
-	} 
+		this.defaultTime -= 100;
+	}
 
 	//Set secs to default time
 	this.secs = this.defaultTime;
-	console.log(this.score, this.secs);
-
 }
 
 game.clickHandler = function(event) {
@@ -90,6 +88,7 @@ game.clickHandler = function(event) {
 		this.levelUp();
 		this.timer();
 	} else {
+		clearInterval(this.countdown);
 		this.over();
 	}
 }
@@ -104,9 +103,9 @@ game.levelUp = function() {
 	//Shorten Timer
 	this.handleTimer();
 }
+
 game.button = function() {
 	var button = this.getRandomCell();
-	button.style.backgroundColor = 'red';
 	button.id = 'button';
 }
 
@@ -116,51 +115,127 @@ game.getRandomCell = function() {
 	return randCell;
 }
 
+//TODO: Refactor
 game.over = function() {
-	var typeOfEnd = this.secs <= 0 ? 'Out of time! Game Over!' : "That's not a button! Game Over!";
-	var messageText = typeOfEnd + ' You scored ' + this.score + (this.score == 1 ? ' point!' : ' points!'); 
-	//reset
-	//game.reset();
-
+	var typeOfEnd = this.secs <= 0
+		? 'Out of time. Game Over!'
+		: "That's not a button. Game Over!";
+	var messageText = typeOfEnd + ' You scored ' + this.score
+		+ (this.score == 1
+			? ' point!'
+			: ' points!');
 	//Elements
-	var frame = document.createElement('div'),
-		button = document.createElement('div'),
+	var frame   = document.createElement('div'),
+		button  = document.createElement('div'),
 		message = document.createElement('p');
+		score   = document.createElement('ol');
 	//Id's
-	frame.id = 'endSplash';
-	button.id = 'retryButton';
+	frame.id   = 'endSplash';
+	button.id  = 'retryButton';
 	message.id = 'messageText';
 	//Content
-	button.innerHTML = 'Try Again!';
+	button.innerHTML  = 'Try Again!';
 	message.innerHTML = messageText;
-	//Append
+
+	//Score List
+	this.storeScore(this.score);
+	//Build list items
+	for (var i = 0; i < this.scoreArr.length; i++) {
+		//Can only list a max of 8 items on div
+		if (i <= 8) {
+			var scoreEl = document.createElement('li');
+			scoreEl.innerHTML = this.scoreArr[i].score + "\t"+ this.scoreArr[i].name;
+			score.appendChild(scoreEl);
+		}
+	}
+	//Build Frame
 	frame.appendChild(message);
 	frame.appendChild(button);
-
+	frame.appendChild(score);
+	//Frame Style
+	frame.style.opacity = 0;
+	//Append to document
 	this.wrapper.appendChild(frame);
+	//Pretty fade in
+	game.fade(frame, 0);
 
 	//Button Click Handler
 	button.addEventListener('click', function() {
-		game.reset();
+		game.fade(frame, 1, game.reset);
 	});
-	//Facebook API?
-	//Save Scores
-
 }
 
 game.reset = function() {
 	//return to default values
-	this.rows = 5;
-	this.cols = 5;
-	this.secs = 500;
-	this.defaultTime = 500;
-	this.score = 0;
-	this.scoreEl.innerHTML = this.score;
-	this.removeEl('#endSplash');
+	game.rows = 5;
+	game.cols = 5;
+	game.secs = 500;
+	game.defaultTime = 500;
+	game.timerEl.innerHTML = "5.00";
+	game.score = 0;
+	game.scoreEl.innerHTML = game.score;
+	game.removeEl('#endSplash');
 	//recall grid
-	this.removeEl('#grid');
-	this.grid();
+	game.removeEl('#grid');
+	game.grid();
+}
 
+game.storeScore = function(score) {
+	var promptScreen = document.createElement('div');
+	var inputArea    = document.createElement('textarea');
+	var submit       = document.createElement('button');
+	var name;
+
+	promptScreen.appendChild(inputArea);
+	this.wrapper.appendChild(promptScreen);
+	button.addEventListener('click' function () {
+		name = inputArea.value;
+	})
+
+	this.scoreArr.push({
+		score: score,
+		name: name
+	});
+}
+
+game.scoreBoard = function(score) {
+
+}
+
+//Fade DOM elements in and out
+//Executes callback on complete
+game.fade = function (element, startOpacity, cb) {
+	var count = startOpacity;
+	var faderIn;
+	var faderOut;
+
+	function fadeIn () {
+		if (element.style.opacity >= 1) {
+			window.clearTimeout(faderIn);
+			cb ? cb() : false;
+		} else {
+			count += 0.05;
+			element.style.opacity = count;
+			faderIn = window.setTimeout(fadeIn, 20);
+		}
+	}
+
+	function fadeOut () {
+		if (element.style.opacity <= 0) {
+			window.clearTimeout(faderOut);
+			cb ? cb() : false;
+		} else {
+			count -= 0.05;
+			element.style.opacity = count;
+			faderOut = window.setTimeout(fadeOut, 20);
+		}
+	}
+	// Fade type selector
+	if (startOpacity === 0) {
+		faderIn = window.setTimeout(fadeIn, 20);
+	} else if (startOpacity === 1) {
+		faderOut = window.setTimeout(fadeOut, 20);
+	}
 }
 
 function signalEvent(event) {
@@ -179,13 +254,7 @@ function handleMessage(e) {
 	switch(data.message){
 		case 'load':
 			game.grid();
-		default: 
+		default:
 			break;
 	}
 }
-
-
-
-
-
-

@@ -1,9 +1,10 @@
 
 * {
-	color:#FFF;
+	color:#212121;
 }
 body {
-	background-color: #333;
+	background-color: #03A9F4;
+	font-family: verdana;
 }
 
 #wrapper {
@@ -15,12 +16,18 @@ body {
 }
 #score {
 	padding-top: 10px;
+	color: #727272;
 }
 
 #grid {
 	margin: auto;
 	top: 0; left: 0; bottom: 0; right: 0;
 	padding-top: 20px;
+	color: #B6B6B6;
+}
+
+#button {
+	background-color: #FF4081;
 }
 
 #timer {
@@ -39,14 +46,26 @@ body {
     position: absolute;
     top: 0; left: 0; bottom: 0; right: 0;
     z-index: 100;
-	background-color: #344;
+	background-color: #0288D1;
 	text-align: center;
+	border-radius: 5px;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
 }
 
 #retryButton {
-	width: 50px;
-	height: 50px;
-	background-color: blue;
+	width: 150px;
+	height: 20px;
+	margin: auto;
+    position: relative;
+	text-align: center;
+	vertical-align: middle;
+    top: 0; left: 0; bottom: 0; right: 0;
+	background-color: #FF4081;
+	border-radius: 5px;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	cursor: pointer;
 }
 
 #messageText {
@@ -56,7 +75,8 @@ body {
 td {
     cursor:pointer;
     width:30px; height:30px;
-    border:1px solid #FFF;
-    text-align:center;
-    font-family:sans-serif; font-size:13px
+    border:1px solid #B6B6B6;
+	border-radius: 5px;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
 }
