@@ -144,8 +144,6 @@ game.over = function() {
 	button.innerHTML  = 'Try Again!';
 	message.innerHTML = messageText;
 
-	//Score List
-	// this.storeScore(this.score);
 	//Build list items
 	for (var i = 0; i < this.scoreArr.length; i++) {
 		//Can only list a max of 8 items on div
@@ -213,10 +211,6 @@ game.storeScore = function(score) {
 		});
 		game.fade(promptScreen, 1, signalEvent('gameOver'));
 	})
-}
-
-game.scoreBoard = function(score) {
-
 }
 
 //Fade DOM elements in and out
