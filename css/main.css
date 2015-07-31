@@ -39,13 +39,27 @@ body {
 	height: 800px;*/
 }
 
+#prompt {
+	width: 350px;
+	height: 40px;
+	margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    z-index: 100;
+	background-color: #0288D1;
+	text-align: center;
+	border-radius: 5px;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+}
+
 #endSplash {
 	width: 500px;
 	height: 250px;
 	margin: auto;
     position: absolute;
     top: 0; left: 0; bottom: 0; right: 0;
-    z-index: 100;
+    z-index: 150;
 	background-color: #0288D1;
 	text-align: center;
 	border-radius: 5px;
@@ -66,6 +80,29 @@ body {
 	-webkit-border-radius:5px;
 	-moz-border-radius:5px;
 	cursor: pointer;
+}
+
+#submitButton {
+	width: 150px;
+	height: 20px;
+	margin: auto;
+    position: relative;
+	text-align: center;
+	vertical-align: middle;
+    top: 0; left: 0; bottom: 0; right: 0;
+	background-color: #FF4081;
+	border: 0;
+	border-radius: 5px;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	cursor: pointer;
+
+}
+
+#input {
+	margin: auto;
+    position: relative;
+    top: 0; left: 0; bottom: 0; right: 0;
 }
 
 #messageText {

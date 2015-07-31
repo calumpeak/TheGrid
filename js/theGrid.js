@@ -43,7 +43,13 @@ game.grid = function() {
 * Remove Element from DOM
 */
 game.removeEl = function(elem) {
-	var el = document.querySelector(elem);
+	var el;
+	if (typeof(elem) === 'object') {
+		el = elem;
+	} else {
+		el = document.querySelector(elem)
+	}
+
 	el.parentNode.removeChild(el);
 }
 
@@ -89,7 +95,8 @@ game.clickHandler = function(event) {
 		this.timer();
 	} else {
 		clearInterval(this.countdown);
-		this.over();
+		//this.over();
+		signalEvent('storeScore');
 	}
 }
 
@@ -138,7 +145,7 @@ game.over = function() {
 	message.innerHTML = messageText;
 
 	//Score List
-	this.storeScore(this.score);
+	// this.storeScore(this.score);
 	//Build list items
 	for (var i = 0; i < this.scoreArr.length; i++) {
 		//Can only list a max of 8 items on div
@@ -182,20 +189,30 @@ game.reset = function() {
 
 game.storeScore = function(score) {
 	var promptScreen = document.createElement('div');
-	var inputArea    = document.createElement('textarea');
+	var inputArea    = document.createElement('input');
 	var submit       = document.createElement('button');
 	var name;
+	promptScreen.id  = 'prompt';
+	inputArea.id	 = 'input';
+	submit.id  		 = 'submitButton';
+
+	submit.innerHTML = 'Submit!'
+	promptScreen.style.opacity = 0;
 
 	promptScreen.appendChild(inputArea);
+	promptScreen.appendChild(submit);
 	this.wrapper.appendChild(promptScreen);
-	button.addEventListener('click' function () {
-		name = inputArea.value;
-	})
+	//Pretty FadeIn
+	this.fade(promptScreen, 0);
 
-	this.scoreArr.push({
-		score: score,
-		name: name
-	});
+	submit.addEventListener('click', function () {
+		name = inputArea.value;
+		game.scoreArr.push({
+			score: score,
+			name: name
+		});
+		game.fade(promptScreen, 1, signalEvent('gameOver'));
+	})
 }
 
 game.scoreBoard = function(score) {
@@ -209,8 +226,10 @@ game.fade = function (element, startOpacity, cb) {
 	var faderIn;
 	var faderOut;
 
+	//Fade element in
 	function fadeIn () {
 		if (element.style.opacity >= 1) {
+			element.style.opacity = 1;
 			window.clearTimeout(faderIn);
 			cb ? cb() : false;
 		} else {
@@ -219,10 +238,12 @@ game.fade = function (element, startOpacity, cb) {
 			faderIn = window.setTimeout(fadeIn, 20);
 		}
 	}
-
+	//Fade element out
+	//Remove element once faded out
 	function fadeOut () {
 		if (element.style.opacity <= 0) {
 			window.clearTimeout(faderOut);
+			game.removeEl(element);
 			cb ? cb() : false;
 		} else {
 			count -= 0.05;
@@ -254,6 +275,13 @@ function handleMessage(e) {
 	switch(data.message){
 		case 'load':
 			game.grid();
+			break;
+		case 'storeScore':
+			game.storeScore(game.score);
+			break;
+		case 'gameOver':
+			game.over();
+			break;
 		default:
 			break;
 	}
