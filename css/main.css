@@ -41,11 +41,12 @@ body {
 
 #prompt {
 	width: 350px;
-	height: 40px;
+	height: 25px;
 	margin: auto;
 	position: absolute;
 	top: 0; left: 0; bottom: 0; right: 0;
 	z-index: 100;
+	padding: 10px 10px 10px 10px;
 	background-color: #0288D1;
 	text-align: center;
 	border-radius: 5px;
@@ -85,7 +86,7 @@ body {
 #submitButton {
 	width: 150px;
 	height: 20px;
-	margin: auto;
+	margin: auto 5px;
 	position: relative;
 	text-align: center;
 	vertical-align: middle;
@@ -116,4 +117,8 @@ td {
 	border-radius: 5px;
 	-webkit-border-radius:5px;
 	-moz-border-radius:5px;
+}
+
+ul {
+	list-style-type: none;
 }

@@ -47,7 +47,7 @@ game.removeEl = function(elem) {
 	if (typeof(elem) === 'object') {
 		el = elem;
 	} else {
-		el = document.querySelector(elem)
+		el = document.querySelector(elem);
 	}
 
 	el.parentNode.removeChild(el);
@@ -63,7 +63,7 @@ game.timer = function() {
 	this.countdown = setInterval(function() {
 		if(this.secs === 0) {
 			clearInterval(this.countdown);
-			this.over();
+			signalEvent('storeScore');
 		} else {
 			this.secs-- ;
 			timer.innerHTML = (this.secs / 100).toFixed(2);
@@ -135,7 +135,7 @@ game.over = function() {
 	var frame   = document.createElement('div'),
 		button  = document.createElement('div'),
 		message = document.createElement('p');
-		score   = document.createElement('ol');
+		score   = document.createElement('ul');
 	//Id's
 	frame.id   = 'endSplash';
 	button.id  = 'retryButton';
@@ -181,7 +181,6 @@ game.reset = function() {
 	game.timerEl.innerHTML = "5.00";
 	game.score = 0;
 	game.scoreEl.innerHTML = game.score;
-	game.removeEl('#endSplash');
 	//recall grid
 	game.removeEl('#grid');
 	game.grid();
@@ -196,6 +195,7 @@ game.storeScore = function(score) {
 	inputArea.id	 = 'input';
 	submit.id  		 = 'submitButton';
 
+	inputArea.placeholder = 'Name';
 	submit.innerHTML = 'Submit!'
 	promptScreen.style.opacity = 0;
 
