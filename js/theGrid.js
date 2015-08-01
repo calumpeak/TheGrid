@@ -1,8 +1,12 @@
 //TODO All of the things
 //TODO Greyed out splash screen
-//TODO DON'T FUCKING USE SET INTERVAL. Get recursive all up in here
-//TODO Responsive mobile design
-//TODO Fix Score Listing (order them, alignment)
+//TODO Fix Score Listing (order them)
+//TODO Match ES5 Style guide, declare full variables, use ""
+//TODO Split out namespaces (game, utils), split to seperate files
+//TODO Starting Splash Screen
+//TODO Refactor CSS. Make classes for shared items
+//TODO Refactor some common items into the html?
+//TODO Refactor repeated items with helpers?
 
 //Intialise
 (function init() {
@@ -24,15 +28,23 @@ game.defaultTime = game.secs;
 game.score = 0;
 game.scoreArr = [];
 
-game.grid = function() {
-	var grid = document.createElement('table'),
+game.start = function () {
+	var frame 	  = game.createEl('div');
+	var buttonStd = game.createEl('div');
+	var buttonInv = game.createEl('div');
+
+
+}
+
+game.grid = function () {
+	var grid = game.createEl('table'),
 		tr, td, i, j;
 
 	for (i = 0; i < this.rows; i++) {
-		tr = grid.appendChild(document.createElement('tr'));
+		tr = grid.appendChild(game.createEl('tr'));
 
 		for (j = 0; j < this.cols; j++) {
-			td = tr.appendChild(document.createElement('td'));
+			td = tr.appendChild(game.createEl('td'));
 			td.addEventListener('click', game.clickLogger);
 		}
 	}
@@ -42,24 +54,11 @@ game.grid = function() {
 }
 
 /*
-* Remove Element from DOM
-*/
-game.removeEl = function(elem) {
-	var el;
-	if (typeof(elem) === 'object') {
-		el = elem;
-	} else {
-		el = document.querySelector(elem);
-	}
-
-	el.parentNode.removeChild(el);
-}
-
-/*
 * Remove event listeners
+* Removes event listeners from elements with same tag name
 */
 game.removeListeners = function (elem, event, func) {
-	var elements = document.getElementsByTagName(elem);
+	var elements = game.getEl(elem);
 	//Loop through elements remove listeners
 	for (var i = 0; i < elements.length; i++) {
 		elements[i].removeEventListener(event, func);
@@ -167,18 +166,18 @@ game.getRandomCell = function() {
 */
 game.over = function() {
 	var typeOfEnd = this.secs <= 0
-		? 'Out of time. Game Over!'
-		: "That's not a button. Game Over!";
-	var messageText = typeOfEnd + ' You scored ' + this.score
+		? 'Out of time.<br/>Game Over!'
+		: "That's not a button.<br/>Game Over!";
+	var messageText = typeOfEnd + '<br/>' +' You scored ' + this.score
 		+ (this.score == 1
 			? ' point!'
 			: ' points!');
 	//Elements
-	var frame   = document.createElement('div'),
-		button  = document.createElement('div'),
-		message = document.createElement('p');
-		score   = document.createElement('ul');
-	//Id's
+	var frame   = game.createEl('div'),
+		button  = game.createEl('div'),
+		message = game.createEl('p'),
+		score   = game.createEl('ul');
+	//ID's
 	frame.id   = 'endSplash';
 	button.id  = 'retryButton';
 	message.id = 'messageText';
@@ -188,9 +187,9 @@ game.over = function() {
 
 	//Build list items
 	for (var i = 0; i < this.scoreArr.length; i++) {
-		//Can only list a max of 8 items on div
-		if (i <= 8) {
-			var scoreEl = document.createElement('li');
+		//Can only list a max of 6 items on div
+		if (i <= 5) {
+			var scoreEl = game.createEl('li');
 			scoreEl.innerHTML = this.scoreArr[i].score + "\t"+ this.scoreArr[i].name;
 			score.appendChild(scoreEl);
 		}
@@ -235,18 +234,19 @@ game.reset = function() {
 * creates splash screen to get user input to build the store score object
 */
 game.storeScore = function(score) {
-	var promptScreen = document.createElement('div');
-	var inputArea	 = document.createElement('input');
-	var submit	     = document.createElement('button');
+	var promptScreen = game.createEl('div');
+	var inputArea	 = game.createEl('input');
+	var submit	     = game.createEl('button');
 	var name;
+	//Assign ID's
 	promptScreen.id  = 'prompt';
 	inputArea.id	 = 'input';
 	submit.id  		 = 'submitButton';
-
+	//Styling
 	inputArea.placeholder = 'Name';
 	submit.innerHTML = 'Submit!'
 	promptScreen.style.opacity = 0;
-
+	//Append
 	promptScreen.appendChild(inputArea);
 	promptScreen.appendChild(submit);
 	this.wrapper.appendChild(promptScreen);
@@ -304,6 +304,34 @@ game.fade = function (element, startOpacity, cb) {
 	} else if (startOpacity === 1) {
 		faderOut = window.setTimeout(fadeOut, 20);
 	}
+}
+
+game.getEl = function (element) {
+	var type = element.substring(0,1);
+
+	if (type === '.' || type === "#") {
+		return document.querySelector(element);
+	} else {
+		return document.getElementsByTagName(element);
+	}
+}
+
+game.createEl = function (tag) {
+	return document.createElement(tag);
+}
+
+/*
+* Remove Element from DOM
+*/
+game.removeEl = function(elem) {
+	var el;
+	if (typeof(elem) === 'object') {
+		el = elem;
+	} else {
+		el = game.getEl(elem);
+	}
+
+	el.parentNode.removeChild(el);
 }
 
 function signalEvent(event) {
