@@ -1,14 +1,15 @@
 //TODO All of the things
-//TODO fix width/height so it constrains dimensions
-//TODO Fix timer issues
+//TODO Greyed out splash screen
 //TODO DON'T FUCKING USE SET INTERVAL. Get recursive all up in here
-//TODO Get rid of the GOD AWFUL colour scheme
+//TODO Responsive mobile design
+//TODO Fix Score Listing (order them, alignment)
 
-//Load
+//Intialise
 (function init() {
 	window.addEventListener('message', handleMessage.bind(game), false);
 })();
-//init game object
+
+//init game namespace
 var game = {};
 //get elements
 game.wrapper  = document.querySelector('#wrapper');
@@ -19,6 +20,7 @@ game.scoreEl  = document.querySelector('#score');
 game.rows  = 5;
 game.cols  = 5;
 game.secs  = 500;
+game.defaultTime = game.secs;
 game.score = 0;
 game.scoreArr = [];
 
@@ -83,15 +85,15 @@ game.timer = function() {
 	}.bind(this),10);
 }
 
-//TODO: Fix where time is overiding back to 5secs
+/*
+* handleTimer
+* drops timer based on score
+* Timer doesnt drop lower than 1 second
+*/
 game.handleTimer = function() {
-	//reset to default
-	this.defaultTime = 500;
-
-	if (this.score % 5 == 0) {
+	if (this.score % 5 == 0 && this.defaultTime !== 100) {
 		this.defaultTime -= 100;
 	}
-
 	//Set secs to default time
 	this.secs = this.defaultTime;
 }

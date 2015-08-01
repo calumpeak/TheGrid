@@ -1,9 +1,9 @@
 
 * {
-	color:#212121;
+	color:#FFFFFF;
 }
 body {
-	background-color: #03A9F4;
+	background-color: #607D8B;
 	font-family: verdana;
 }
 
@@ -16,10 +16,12 @@ body {
 }
 #score {
 	padding-top: 10px;
-	color: #727272;
+	/*color: #727272;*/
 }
 
 #grid {
+	width:300px;
+	height:325px;
 	margin: auto;
 	top: 0; left: 0; bottom: 0; right: 0;
 	padding-top: 20px;
@@ -27,7 +29,7 @@ body {
 }
 
 #button {
-	background-color: #FF4081;
+	background-color: #536DFE;
 }
 
 #timer {
@@ -47,7 +49,7 @@ body {
 	top: 0; left: 0; bottom: 0; right: 0;
 	z-index: 100;
 	padding: 10px 10px 10px 10px;
-	background-color: #0288D1;
+	background-color: #455A64;
 	text-align: center;
 	border-radius: 5px;
 	-webkit-border-radius:5px;
@@ -61,7 +63,7 @@ body {
 	position: absolute;
 	top: 0; left: 0; bottom: 0; right: 0;
 	z-index: 150;
-	background-color: #0288D1;
+	background-color: #455A64;
 	text-align: center;
 	border-radius: 5px;
 	-webkit-border-radius:5px;
@@ -76,7 +78,7 @@ body {
 	text-align: center;
 	vertical-align: middle;
 	top: 0; left: 0; bottom: 0; right: 0;
-	background-color: #FF4081;
+	background-color: #536DFE;
 	border-radius: 5px;
 	-webkit-border-radius:5px;
 	-moz-border-radius:5px;
@@ -91,7 +93,7 @@ body {
 	text-align: center;
 	vertical-align: middle;
 	top: 0; left: 0; bottom: 0; right: 0;
-	background-color: #FF4081;
+	background-color: #536DFE;
 	border: 0;
 	border-radius: 5px;
 	-webkit-border-radius:5px;
@@ -112,7 +114,8 @@ body {
 
 td {
 	cursor:pointer;
-	width:30px; height:30px;
+	width:auto;
+	height:auto;
 	border:1px solid #B6B6B6;
 	border-radius: 5px;
 	-webkit-border-radius:5px;
@@ -121,4 +124,8 @@ td {
 
 ul {
 	list-style-type: none;
+}
+
+input {
+	color: #212121;
 }
