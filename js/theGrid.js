@@ -4,6 +4,8 @@
 //TODO Starting Splash Screen
 //TODO Refactor CSS. Make classes for shared items
 //TODO Refactor some common items into the html?
+//TODO Splash messages on level up
+//TODO Build levelup handler DRY
 
 //Intialise
 (function init() {
@@ -24,16 +26,42 @@ game.cols  = 5;
 game.secs  = 500;
 game.defaultTime = game.secs;
 game.score = 0;
+game.visible = "1px";
 game.scoreArr = [];
 
 game.start = function () {
 	var frame 	  = util.createEl("div");
 	var buttonStd = util.createEl("div");
 	var buttonInv = util.createEl("div");
+	
+	frame.className = "frame";
+	buttonStd.className = "button";
+	buttonInv.className = "button";
+	buttonStd.id = "buttonStd";
+	buttonInv.id = "buttonInv";
+	frame.id  = "startSplash";
 
-	var text = "Hello World!";
+	var text =  "<p>" + "Welcome to The Grid" + "</p>" +
+				"<p>" + "A button click game where the time drops, " +
+				"the grid gets bigger, and your recactions are challenged!" + "</p>" +
+				"<p>" + "Which version would you like to play?"  + "</p>";
 
 	frame.innerHTML = text;
+	buttonStd.innerHTML = "Normal";
+	buttonInv.innerHTML = "Invisible";
+	frame.style.opacity = 1;
+
+	buttonStd.addEventListener("click", function () {
+		util.fade(frame, 1, signalEvent("startGame"));
+
+	})
+	buttonInv.addEventListener("click", function () {
+		game.visible = "0px"
+		util.fade(frame, 1, signalEvent("startGame"));
+	})
+
+	util.buildEl(frame, buttonStd, buttonInv);
+	util.buildEl(this.wrapper, frame);
 }
 
 game.grid = function () {
@@ -48,6 +76,7 @@ game.grid = function () {
 
 		for (j = 0; j < this.cols; j++) {
 			td = util.buildEl(tr, util.createEl("td"));
+			td.style.border = this.visible + " solid #B6B6B6";
 			td.addEventListener("click", game.clickLogger);
 		}
 	}
@@ -71,7 +100,6 @@ game.timer = function() {
 			this.secs-- ;
 			timer.innerHTML = (this.secs / 100).toFixed(2);
 		}
-
 	}.bind(this),10);
 }
 
@@ -170,6 +198,8 @@ game.over = function() {
 		message = util.createEl("p"),
 		score   = util.createEl("ul");
 	//ID"s
+	frame.className = "frame";
+	button.className = "button";
 	frame.id   = "endSplash";
 	button.id  = "retryButton";
 	message.id = "messageText";
@@ -228,7 +258,9 @@ game.storeScore = function(score) {
 	var inputArea	 = util.createEl("input");
 	var submit	     = util.createEl("button");
 	var name;
-	//Assign ID"s
+	//Assign IDs
+	promptScreen.className = "frame";
+	submit.className = "button";
 	promptScreen.id  = "prompt";
 	inputArea.id	 = "input";
 	submit.id  		 = "submitButton";
@@ -267,6 +299,9 @@ function handleMessage(e) {
 
 	switch(data.message){
 		case "load":
+			game.start();
+			break;
+		case "startGame":
 			game.grid();
 			break;
 		case "storeScore":

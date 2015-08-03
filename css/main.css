@@ -1,8 +1,5 @@
-
-* {
-	color:#FFFFFF;
-}
 body {
+	color:#FFFFFF;
 	background-color: #607D8B;
 	font-family: verdana;
 }
@@ -16,7 +13,6 @@ body {
 }
 #score {
 	padding-top: 10px;
-	/*color: #727272;*/
 }
 
 #grid {
@@ -28,41 +24,20 @@ body {
 	color: #B6B6B6;
 }
 
-#button {
-	background-color: #536DFE;
-}
-
-#timer {
-
-}
-
-#content {
-	/*width: 800px;
-	height: 800px;*/
-}
-
-#startSplash {
-
-}
-
-#prompt {
-	width: 300px;
-	height: 25px;
+.button {
 	margin: auto;
-	position: absolute;
-	top: 0; left: 0; bottom: 0; right: 0;
-	z-index: 100;
-	padding: 10px 10px 10px 10px;
-	background-color: #455A64;
+	position: relative;
 	text-align: center;
+	vertical-align: middle;
+	top: 0; left: 0; bottom: 0; right: 0;
+	background-color: #536DFE;
 	border-radius: 5px;
 	-webkit-border-radius:5px;
 	-moz-border-radius:5px;
+	cursor: pointer;
 }
 
-#endSplash {
-	width: 300px;
-	height: 250px;
+.frame {
 	margin: auto;
 	padding: 10px;
 	position: absolute;
@@ -75,36 +50,37 @@ body {
 	-moz-border-radius:5px;
 }
 
+#startSplash, #endSplash {
+	width: 300px;
+	height: 250px;
+}
+
+#button {
+	background-color: #536DFE;
+}
+
+#prompt {
+	width: 300px;
+	height: 25px;
+}
+
+#buttonStd, #buttonInv {
+	width: 100px;
+	height: 20px;
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
 #retryButton {
 	width: 150px;
 	height: 20px;
-	margin: auto;
-	position: relative;
-	text-align: center;
-	vertical-align: middle;
-	top: 0; left: 0; bottom: 0; right: 0;
-	background-color: #536DFE;
-	border-radius: 5px;
-	-webkit-border-radius:5px;
-	-moz-border-radius:5px;
-	cursor: pointer;
 }
 
 #submitButton {
 	width: 100px;
 	height: 20px;
 	margin: auto 5px;
-	position: relative;
-	text-align: center;
-	vertical-align: middle;
-	top: 0; left: 0; bottom: 0; right: 0;
-	background-color: #536DFE;
-	border: 0;
-	border-radius: 5px;
-	-webkit-border-radius:5px;
-	-moz-border-radius:5px;
-	cursor: pointer;
-
+	border: none;
 }
 
 #input {
@@ -122,7 +98,6 @@ td {
 	cursor:pointer;
 	width:auto;
 	height:auto;
-	border:1px solid #B6B6B6;
 	border-radius: 5px;
 	-webkit-border-radius:5px;
 	-moz-border-radius:5px;

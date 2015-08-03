@@ -8,7 +8,6 @@ util.createEl = function (tag) {
 	return document.createElement(tag);
 }
 
-
 /*
 * build element
 * baseEl is the element that needs to be appended to
