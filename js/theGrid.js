@@ -1,11 +1,9 @@
 //TODO All of the things
 //TODO Greyed out splash screen
 //TODO Fix Score Listing (order them)
-//TODO Split out namespaces (game, utils), split to seperate files
 //TODO Starting Splash Screen
 //TODO Refactor CSS. Make classes for shared items
 //TODO Refactor some common items into the html?
-//TODO Refactor repeated items with helpers?
 
 //Intialise
 (function init() {
@@ -14,6 +12,7 @@
 
 //init game namespace
 var game = game || {};
+
 //get elements
 game.wrapper  = util.getEl("#wrapper");
 game.gridEl   = util.getEl("#content");
@@ -31,22 +30,29 @@ game.start = function () {
 	var frame 	  = util.createEl("div");
 	var buttonStd = util.createEl("div");
 	var buttonInv = util.createEl("div");
+
+	var text = "Hello World!";
+
+	frame.innerHTML = text;
 }
 
 game.grid = function () {
-	var grid = util.createEl("table"),
-		tr, td, i, j;
+	var grid = util.createEl("table");
+	var tr;
+	var td;
+	var i;
+	var j;
 
 	for (i = 0; i < this.rows; i++) {
-		tr = grid.appendChild(util.createEl("tr"));
+		tr = util.buildEl(grid, util.createEl("tr"));
 
 		for (j = 0; j < this.cols; j++) {
-			td = tr.appendChild(util.createEl("td"));
+			td = util.buildEl(tr, util.createEl("td"));
 			td.addEventListener("click", game.clickLogger);
 		}
 	}
 	grid.id = "grid";
-	this.gridEl.appendChild(grid);
+	util.buildEl(this.gridEl, grid);
 	this.button();
 }
 
@@ -115,8 +121,10 @@ game.clickHandler = function(event) {
 */
 game.levelUp = function() {
 	//Grow Grid Size
-	this.rows ++;
-	this.cols ++;
+	if (this.score % 5 == 0) {
+		this.rows ++;
+		this.cols ++;
+	}
 	//recall grid
 	util.removeEl("#grid");
 	this.grid();
@@ -175,17 +183,15 @@ game.over = function() {
 		if (i <= 5) {
 			var scoreEl = util.createEl("li");
 			scoreEl.innerHTML = this.scoreArr[i].score + "\t" + this.scoreArr[i].name;
-			score.appendChild(scoreEl);
+			util.buildEl(score, scoreEl);
 		}
 	}
 	//Build Frame
-	frame.appendChild(message);
-	frame.appendChild(button);
-	frame.appendChild(score);
+	util.buildEl(frame, message, button, score);
 	//Frame Style
 	frame.style.opacity = 0;
 	//Append to document
-	this.wrapper.appendChild(frame);
+	util.buildEl(this.wrapper, frame);
 	//Pretty fade in
 	util.fade(frame, 0);
 
@@ -231,9 +237,8 @@ game.storeScore = function(score) {
 	submit.innerHTML = "Submit!"
 	promptScreen.style.opacity = 0;
 	//Append
-	promptScreen.appendChild(inputArea);
-	promptScreen.appendChild(submit);
-	this.wrapper.appendChild(promptScreen);
+	util.buildEl(promptScreen, inputArea, submit);
+	util.buildEl(this.wrapper, promptScreen);
 	//Pretty FadeIn
 	util.fade(promptScreen, 0);
 

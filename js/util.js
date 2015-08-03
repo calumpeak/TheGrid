@@ -1,4 +1,4 @@
-//Intialise Object
+//Intialise util namespace
 var util = util || {};
 
 /*
@@ -6,6 +6,24 @@ var util = util || {};
 */
 util.createEl = function (tag) {
 	return document.createElement(tag);
+}
+
+
+/*
+* build element
+* baseEl is the element that needs to be appended to
+* accepts any number of following arguments to append to baseEl
+*/
+util.buildEl = function (baseEl) {
+    var builtElement;
+    var len = arguments.length;
+    var i;
+
+    for (var i = 1; i < len; i++) {
+        builtElement = baseEl.appendChild(arguments[i]);
+    }
+
+    return builtElement;
 }
 
 /*
