@@ -18,7 +18,7 @@ util.buildEl = function (baseEl) {
     var len = arguments.length;
     var i;
 
-    for (var i = 1; i < len; i++) {
+    for (i = 1; i < len; i++) {
         builtElement = baseEl.appendChild(arguments[i]);
     }
 

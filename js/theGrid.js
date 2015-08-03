@@ -1,11 +1,6 @@
 //TODO All of the things
-//TODO Greyed out splash screen
 //TODO Fix Score Listing (order them)
-//TODO Starting Splash Screen
-//TODO Refactor CSS. Make classes for shared items
-//TODO Refactor some common items into the html?
-//TODO Splash messages on level up
-//TODO Build levelup handler DRY
+
 
 //Intialise
 (function init() {
@@ -33,7 +28,7 @@ game.start = function () {
 	var frame 	  = util.createEl("div");
 	var buttonStd = util.createEl("div");
 	var buttonInv = util.createEl("div");
-	
+
 	frame.className = "frame";
 	buttonStd.className = "button";
 	buttonInv.className = "button";
@@ -139,6 +134,7 @@ game.clickHandler = function(event) {
 		this.timer();
 	} else {
 		clearInterval(this.countdown);
+		this.flashMessage("GAME OVER!!");
 		signalEvent("storeScore");
 	}
 }
@@ -152,6 +148,7 @@ game.levelUp = function() {
 	if (this.score % 5 == 0) {
 		this.rows ++;
 		this.cols ++;
+		this.flashMessage("Level Up!!");
 	}
 	//recall grid
 	util.removeEl("#grid");
@@ -177,6 +174,17 @@ game.getRandomCell = function() {
 	var gridCell = this.gridEl.getElementsByTagName("td");
 	var randCell = gridCell[Math.floor(Math.random() * gridCell.length)];
 	return randCell;
+}
+
+game.flashMessage = function (mssg) {
+	var p = util.createEl("p");
+	p.innerHTML = mssg;
+	p.style.opacity = 0;
+	util.buildEl(this.wrapper, p);
+	//Fade in *pause* fade out
+	util.fade(p, 0, function () {
+		setTimeout(util.fade(p, 1), 1500);
+	});
 }
 
 //TODO: Refactor
@@ -310,8 +318,6 @@ function handleMessage(e) {
 			break;
 		case "gameOver":
 			game.over();
-			break;
-		case "backSplash":
 			break;
 		default:
 			break;

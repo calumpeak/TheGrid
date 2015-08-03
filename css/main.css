@@ -39,6 +39,7 @@ body {
 
 .frame {
 	margin: auto;
+	margin-top: 140px;
 	padding: 10px;
 	position: absolute;
 	top: 0; left: 0; bottom: 0; right: 0;
@@ -52,7 +53,7 @@ body {
 
 #startSplash, #endSplash {
 	width: 300px;
-	height: 250px;
+	height: 285px;
 }
 
 #button {
@@ -62,6 +63,7 @@ body {
 #prompt {
 	width: 300px;
 	height: 25px;
+	margin-top: 267px;
 }
 
 #buttonStd, #buttonInv {
