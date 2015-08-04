@@ -12,32 +12,32 @@ game.gridEl   = util.getEl("#content");
 game.timerEl  = util.getEl("#timer");
 game.scoreEl  = util.getEl("#score");
 //Set defualts
-game.rows  = 5;
-game.cols  = 5;
-game.secs  = 500;
-game.defaultTime = game.secs;
-game.score = 0;
-game.visible = "1px";
-game.scoreArr = [];
+game.rows			= 5;
+game.cols			= 5;
+game.secs			= 500;
+game.defaultTime 	= game.secs;
+game.score			= 0;
+game.visible		= "1px";
+game.scoreArr 		= [];
 
 game.start = function () {
-	var frame 	  = util.createEl("div");
-	var buttonStd = util.createEl("div");
-	var buttonInv = util.createEl("div");
+	var frame		= util.createEl("div");
+	var buttonStd	= util.createEl("div");
+	var buttonInv	= util.createEl("div");
 
-	frame.className = "frame";
+	frame.className		= "frame";
 	buttonStd.className = "button";
 	buttonInv.className = "button";
-	buttonStd.id = "buttonStd";
-	buttonInv.id = "buttonInv";
-	frame.id  = "startSplash";
+	buttonStd.id		= "buttonStd";
+	buttonInv.id		= "buttonInv";
+	frame.id			= "startSplash";
 
-	var text =  "<p>" + "Welcome to The Grid" + "</p>" +
+	var text =	"<p>" + "Welcome to The Grid" + "</p>" +
 				"<p>" + "A button click game where the time drops, " +
 				"the grid gets bigger, and your recactions are challenged!" + "</p>" +
 				"<p>" + "Which version would you like to play?"  + "</p>";
 
-	frame.innerHTML = text;
+	frame.innerHTML		= text;
 	buttonStd.innerHTML = "Normal";
 	buttonInv.innerHTML = "Invisible";
 	frame.style.opacity = 1;
@@ -202,16 +202,16 @@ game.over = function() {
 			? " point!"
 			: " points!");
 	//Elements
-	var frame   = util.createEl("div"),
-		button  = util.createEl("div"),
-		message = util.createEl("p"),
-		score   = util.createEl("ul");
+	var frame   = util.createEl("div");
+	var button  = util.createEl("div");
+	var message = util.createEl("p");
+	var score   = util.createEl("ul");
 	//ID"s
-	frame.className = "frame";
-	button.className = "button";
-	frame.id   = "endSplash";
-	button.id  = "retryButton";
-	message.id = "messageText";
+	frame.className		= "frame";
+	button.className	= "button";
+	frame.id			= "endSplash";
+	button.id			= "retryButton";
+	message.id			= "messageText";
 	//Content
 	button.innerHTML  = "Try Again!";
 	message.innerHTML = messageText;
@@ -268,9 +268,9 @@ game.reset = function() {
 * creates splash screen to get user input to build the store score object
 */
 game.storeScore = function(score) {
-	var promptScreen = util.createEl("div");
-	var inputArea	 = util.createEl("input");
-	var submit		 = util.createEl("button");
+	var promptScreen	= util.createEl("div");
+	var inputArea		= util.createEl("input");
+	var submit			= util.createEl("button");
 	var name;
 	//Assign IDs
 	promptScreen.className = "frame";
