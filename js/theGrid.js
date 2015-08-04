@@ -1,7 +1,3 @@
-//TODO All of the things
-//TODO Fix Score Listing (order them)
-
-
 //Intialise
 (function init() {
 	window.addEventListener("message", handleMessage.bind(game), false);
@@ -219,6 +215,11 @@ game.over = function() {
 	//Content
 	button.innerHTML  = "Try Again!";
 	message.innerHTML = messageText;
+
+	//Sort scoreArr into descending list
+	this.scoreArr.sort(function (a, b) {
+		return a.score - b.score;
+	}).reverse();
 
 	//Build list items
 	for (var i = 0; i < this.scoreArr.length; i++) {
