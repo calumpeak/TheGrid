@@ -66,8 +66,10 @@ util.removeListeners = function (elem, event, func) {
 
 //TODO Custom Fade levels
 /*
-*Fade DOM elements in and out
-*Executes callback on complete
+* Fade DOM elements in and out
+* Executes callback on complete
+* startOpacity 0 --> Fade In
+* startOpacity 1 --> Fade Out
 */
 util.fade = function (element, startOpacity, cb) {
 	var count = startOpacity;
