@@ -34,7 +34,7 @@ game.start = function () {
 
 	var text =  "<p>" + "Welcome to The Grid" + "</p>" +
 				"<p>" + "A button click game where the time drops, " +
-				"the grid gets bigger, and your recactions are challenged!" + "</p>" +
+				"the grid gets smaller, and your accuracy is challenged!" + "</p>" +
 				"<p>" + "Which version would you like to play?"  + "</p>";
 
 	frame.innerHTML = text;
