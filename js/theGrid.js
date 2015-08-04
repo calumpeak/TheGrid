@@ -270,7 +270,7 @@ game.reset = function() {
 game.storeScore = function(score) {
 	var promptScreen = util.createEl("div");
 	var inputArea	 = util.createEl("input");
-	var submit	     = util.createEl("button");
+	var submit		 = util.createEl("button");
 	var name;
 	//Assign IDs
 	promptScreen.className = "frame";
