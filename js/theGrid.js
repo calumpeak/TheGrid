@@ -121,8 +121,8 @@ game.clickLogger = function (event) {
 * Decides what to do with click event
 * TODO Refactor to message system
 */
-game.clickHandler = function(event) {
-	if (this.secs !== 0 && event.srcElement.id === "button") {
+game.clickHandler = function (event) {
+	if (this.secs !== 0 && event.target.id === "button") {
 		//Increase Score
 		this.score++
 		this.scoreEl.innerHTML = this.score;
